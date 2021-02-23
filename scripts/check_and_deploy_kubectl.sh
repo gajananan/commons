@@ -217,11 +217,21 @@ gpg --import /tmp/tmp-secring.gpg
 gpg --list-secret-keys
 
 echo "=========================================================="
+if ! [ -x "$(command -v yq)" ]; then
+   echo "Install yq"
+   sudo wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 -O /usr/bin/yq
+   sudo chmod +x /usr/bin/yq
+fi
+
+echo "=========================================================="
 echo "Signing manifest"
 set -x
 curl -s  https://raw.githubusercontent.com/open-cluster-management/integrity-shield/master/scripts/gpg-annotation-sign.sh | bash -s \
          signer@enterprise.com \
          ${DEPLOYMENT_FILE} 
+
+echo "After signing"
+cat ${DEPLOYMENT_FILE} 
 set +x   
 echo "=========================================================="
 echo "DEPLOYING using manifest"
