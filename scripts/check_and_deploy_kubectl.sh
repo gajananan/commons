@@ -217,12 +217,12 @@ gpg --import /tmp/tmp-secring.gpg
 gpg --list-secret-keys
 
 
-if ! [ -x "$(command -v yq)" ]; then
+#if ! [ -x "$(command -v yq)" ]; then
    echo "=========================================================="
    echo "Install yq"
    sudo wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 -O /usr/bin/yq
    sudo chmod +x /usr/bin/yq
-fi
+#fi
 
 echo "=========================================================="
 DEPLOYMENT_RSP_FILE=deployment-rsp.yml
