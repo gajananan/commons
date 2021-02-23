@@ -210,6 +210,20 @@ if [ ! -z "${CLUSTER_INGRESS_SUBDOMAIN}" ]; then
 fi
 
 echo "=========================================================="
+echo "Preparing for signing manifest"
+kubectl get secret pipeline-keyring-secret -n tekton-pipelines -o json | jq -r '.data["keyring.gpg"]' | base64 -d > /tmp/tmp-secring.gpg
+echo "Import keys"
+gpg --import /tmp/tmp-secring.gpg
+gpg --list-secret-keys
+
+echo "=========================================================="
+echo "Signing manifest"
+set -x
+curl -s  https://raw.githubusercontent.com/open-cluster-management/integrity-shield/master/scripts/gpg-annotation-sign.sh | bash -s \
+         signer@enterprise.com \
+         ${DEPLOYMENT_FILE} 
+set +x   
+echo "=========================================================="
 echo "DEPLOYING using manifest"
 set -x
 kubectl apply --namespace ${CLUSTER_NAMESPACE} -f ${DEPLOYMENT_FILE} 
