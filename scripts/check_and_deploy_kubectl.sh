@@ -232,6 +232,8 @@ curl -s https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts
      ${DEPLOYMENT_FILE}  \
      ${DEPLOYMENT_RSP_FILE}
      
+yq w -i ${DEPLOYMENT_RSP_FILE} 'spec.ignoreAttrs.[0].attrs.[0]' 'spec.ports.0.nodePort'
+
 if [ -f "${DEPLOYMENT_RSP_FILE}" ]; then     
    kubectl apply --namespace ${CLUSTER_NAMESPACE} -f ${DEPLOYMENT_RSP_FILE} 
 fi
