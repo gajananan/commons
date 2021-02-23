@@ -216,11 +216,24 @@ echo "Import keys"
 gpg --import /tmp/tmp-secring.gpg
 gpg --list-secret-keys
 
-echo "=========================================================="
+
 if ! [ -x "$(command -v yq)" ]; then
+   echo "=========================================================="
    echo "Install yq"
    sudo wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 -O /usr/bin/yq
    sudo chmod +x /usr/bin/yq
+fi
+
+echo "=========================================================="
+DEPLOYMENT_RSP_FILE=deployment-rsp.yml
+echo "Creating RSP"
+curl -s https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/generate_rsp.sh | bash -s \
+     hello-container-rsp \
+ 	   ${DEPLOYMENT_FILE}  \
+	   ${DEPLOYMENT_RSP_FILE}
+     
+if [ -z "${DEPLOYMENT_RSP_FILE}" ]; then     
+   kubectl apply --namespace ${CLUSTER_NAMESPACE} -f ${DEPLOYMENT_RSP_FILE} 
 fi
 
 echo "=========================================================="
