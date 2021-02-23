@@ -229,17 +229,17 @@ DEPLOYMENT_RSP_FILE=deployment-rsp.yml
 echo "Creating RSP"
 curl -s https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/generate_rsp.sh | bash -s \
      hello-container-rsp \
- 	   ${DEPLOYMENT_FILE}  \
-	   ${DEPLOYMENT_RSP_FILE}
+     ${DEPLOYMENT_FILE}  \
+     ${DEPLOYMENT_RSP_FILE}
      
-if [ -z "${DEPLOYMENT_RSP_FILE}" ]; then     
+if [ -f "${DEPLOYMENT_RSP_FILE}" ]; then     
    kubectl apply --namespace ${CLUSTER_NAMESPACE} -f ${DEPLOYMENT_RSP_FILE} 
 fi
 
 echo "=========================================================="
 echo "Signing manifest"
 set -x
-curl -s  https://raw.githubusercontent.com/open-cluster-management/integrity-shield/master/scripts/gpg-annotation-sign.sh | bash -s \
+curl -s  https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/gpg-annotation-sign.sh | bash -s \
          signer@enterprise.com \
          ${DEPLOYMENT_FILE} 
 
