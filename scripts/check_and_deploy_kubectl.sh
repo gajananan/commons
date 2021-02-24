@@ -241,7 +241,12 @@ yq w -i  ${DEPLOYMENT_RSP_FILE} 'spec.unprotectAttrs.[0].attrs.[0]' 'spec.ports.
 curl -s  https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/gpg-annotation-sign.sh | bash -s \
          signer@enterprise.com \
          ${DEPLOYMENT_RSP_FILE} 
-         
+
+echo "=========================================================="
+echo "Generated RSP"
+cat ${DEPLOYMENT_RSP_FILE} 
+echo "=========================================================="
+ 
 if [ -f "${DEPLOYMENT_RSP_FILE}" ]; then     
    kubectl apply --namespace ${CLUSTER_NAMESPACE} -f ${DEPLOYMENT_RSP_FILE} 
 fi
