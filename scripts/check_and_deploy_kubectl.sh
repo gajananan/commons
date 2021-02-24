@@ -224,6 +224,8 @@ gpg --list-secret-keys
    sudo chmod +x /usr/bin/yq
 #fi
 
+yq w -i -d0 ${DEPLOYMENT_FILE} 'spec.template.spec.imagePullSecrets.[0].name'  "${IMAGE_PULL_SECRET_NAME}"
+
 echo "=========================================================="
 DEPLOYMENT_RSP_FILE=deployment-rsp.yml
 echo "Creating RSP"
