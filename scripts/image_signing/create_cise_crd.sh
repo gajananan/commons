@@ -8,7 +8,7 @@ if [ -z "$REGISTRY_URL" ]; then
 fi
 
 cise_crd_template=$(cat <<'EOT'
-apiVersion: securityenforcement.admission.cloud.ibm.com/v1beta1
+apiVersion: portieris.cloud.ibm.com/v1
 kind: %s
 metadata:
   name: %s
@@ -16,6 +16,7 @@ spec:
   repositories:
   - name: %s
     policy:
+      mutateImage: false
       trust:
         enabled: %s
         signerSecrets:
