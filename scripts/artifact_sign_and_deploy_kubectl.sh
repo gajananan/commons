@@ -222,8 +222,10 @@ gpg --list-secret-keys
    echo "Install yq"
    sudo wget https://github.com/mikefarah/yq/releases/download/3.3.2/yq_linux_amd64 -O /usr/bin/yq
    sudo chmod +x /usr/bin/yq
+   echo "Completed installing yq"
 #fi
 
+echo "Goging to add image pull secret to deployment.yaml"
 yq w -i -d0 ${DEPLOYMENT_FILE} 'spec.template.spec.imagePullSecrets.[0].name'  "${IMAGE_PULL_SECRET_NAME}"
 
 echo "=========================================================="
