@@ -225,7 +225,7 @@ gpg --list-secret-keys
    echo "Completed installing yq"
 #fi
 
-echo "Goging to add image pull secret to deployment.yaml"
+echo "Going to add image pull secret to deployment.yaml"
 yq w -i -d0 ${DEPLOYMENT_FILE} 'spec.template.spec.imagePullSecrets.[0].name'  "${IMAGE_PULL_SECRET_NAME}"
 
 echo "=========================================================="
@@ -240,7 +240,7 @@ yq w -i  ${DEPLOYMENT_RSP_FILE} 'spec.unprotectAttrs.[0].match.[0].kind' 'Servic
 yq w -i  ${DEPLOYMENT_RSP_FILE} 'spec.unprotectAttrs.[0].match.[0].name' 'hello-service'
 yq w -i  ${DEPLOYMENT_RSP_FILE} 'spec.unprotectAttrs.[0].attrs.[0]' 'spec.ports.0.nodePort'
 
-curl -s  https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/gpg-annotation-sign.sh | bash -s \
+curl -s  https://raw.githubusercontent.com/IBM/integrity-enforcer/master/scripts/gpg-annotation-sign.sh | bash -s \
          signer@enterprise.com \
          ${DEPLOYMENT_RSP_FILE} 
 
@@ -256,12 +256,12 @@ fi
 echo "=========================================================="
 echo "Signing manifest"
 set -x
-curl -s  https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/gpg-annotation-sign.sh | bash -s \
+curl -s  https://raw.githubusercontent.com/IBM/integrity-enforcer/master/scripts/gpg-annotation-sign.sh | bash -s \
          signer@enterprise.com \
          ${DEPLOYMENT_FILE} 
 
 echo "After signing"
-cat ${DEPLOYMENT_FILE} 
+cat "${DEPLOYMENT_FILE}"
 set +x   
 echo "=========================================================="
 echo "DEPLOYING using manifest"
