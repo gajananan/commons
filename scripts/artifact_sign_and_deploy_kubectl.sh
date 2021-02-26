@@ -231,7 +231,7 @@ yq w -i -d0 ${DEPLOYMENT_FILE} 'spec.template.spec.imagePullSecrets.[0].name'  "
 echo "=========================================================="
 DEPLOYMENT_RSP_FILE=deployment-rsp.yml
 echo "Creating RSP"
-curl -s https://raw.githubusercontent.com/IBM/integrity-enforcer/develop/scripts/generate_rsp.sh | bash -s \
+curl -s https://raw.githubusercontent.com/IBM/integrity-enforcer/master/scripts/generate_rsp.sh | bash -s \
      hello-container-rsp \
      ${DEPLOYMENT_FILE}  \
      ${DEPLOYMENT_RSP_FILE}
